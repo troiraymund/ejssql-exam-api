@@ -59,6 +59,89 @@ app.post("/:table/create", (req, res, next) => { //TODO: add support for array o
     });
 });
 
+app.get("/:table", (req, res, next) => {
+    const p = req.params;
+    const q = req.query;
+    const table = p.table.toUpperCase();
+
+    let qInit = Object.assign({},req.query);
+    delete qInit.field;
+
+    let dbQuery;
+    if(q.field && Object.keys(qInit).length>0){
+        let where = "";
+        for (var property in qInit) {
+            if (qInit.hasOwnProperty(property)) {
+                where += property + " = \"" + qInit[property] + "\" AND ";
+            }
+        }
+        var lastIndex = where.lastIndexOf(" ")-4;
+        where = where.substring(0, lastIndex);
+
+        dbQuery = format('SELECT {0} FROM {1} WHERE {2}', q.field, table, where);
+    } else if (q.field) {
+        dbQuery = format('SELECT {0} FROM {1}', q.field, table);
+    } else {
+        dbQuery = format('SELECT * FROM {0}', table);
+    }
+
+    db.query(dbQuery, function (err, result) {
+        if(result){
+            response.success(res, next, result, 200, 'OK');
+        } else if (err){
+            response.failure(res, next, err, 500, 'Bad Request');
+        }
+    });
+});
+
+app.delete("/:table", (req, res, next) => {
+    const p = req.params;
+    const q = req.query;
+    const table = p.table.toUpperCase();
+
+    let qInit = Object.assign({},req.query);
+    delete qInit.field;
+
+    let dbQuery;
+    if(Object.keys(qInit).length>0){
+        let where = "";
+        for (var property in qInit) {
+            if (qInit.hasOwnProperty(property)) {
+                where += property + " = \"" + qInit[property] + "\" AND ";
+            }
+        }
+        var lastIndex = where.lastIndexOf(" ")-4;
+        where = where.substring(0, lastIndex);
+
+        dbQuery = format('DELETE FROM {0} WHERE {1}', table, where);
+    } else {
+        dbQuery = format('DELETE FROM {0}', table);
+    }
+
+    db.query(dbQuery, function (err, result) {
+        if(result){
+            response.success(res, next, result, 200, 'OK');
+        } else if (err){
+            response.failure(res, next, err, 500, 'Bad Request');
+        }
+    });
+});
+
+app.delete("/:table/:id", (req, res, next) => {
+    const p = req.params;
+    const table = p.table.toUpperCase();
+
+    let dbQuery = format('DELETE FROM {0} WHERE id = {1}', table, p.id);
+
+    db.query(dbQuery, function (err, result) {
+        if(result){
+            response.success(res, next, result, 200, 'OK');
+        } else if (err){
+            response.failure(res, next, err, 500, 'Bad Request');
+        }
+    });
+});
+
 process.on('uncaughtException', function (err) {
     console.log('Caught exception: ' + err);
 });
