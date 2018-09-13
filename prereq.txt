@@ -1,0 +1,8 @@
+CREATE DATABASE inventory
+CREATE TABLE IF NOT EXISTS `items` (
+  `id` int(12) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `qty` int(7) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
