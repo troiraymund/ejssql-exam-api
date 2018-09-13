@@ -12,12 +12,13 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "localhost:3000/items/create?name=Item 1&qty=10&amount=10.00",
+					"raw": "localhost:3000/api/items/create?name=Item 1&qty=10&amount=10.00",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
+						"api",
 						"items",
 						"create"
 					],
@@ -46,12 +47,13 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "localhost:3000/items/[id]",
+					"raw": "localhost:3000/api/items/[id]",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
+						"api",
 						"items",
 						"[id]"
 					]
@@ -66,12 +68,13 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "localhost:3000/items?[fieldName1]=[value]&[fieldName2]=[value]",
+					"raw": "localhost:3000/api/items?[fieldName1]=[value]&[fieldName2]=[value]",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
+						"api",
 						"items"
 					],
 					"query": [
@@ -96,23 +99,20 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "localhost:3000/items?[fieldName1]=[value]&[fieldName2]=[value]&field=id, name, amount",
+					"raw": "localhost:3000/api/items?id=10&field=id, name, amount",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
+						"api",
 						"items"
 					],
 					"query": [
 						{
-							"key": "[fieldName1]",
-							"value": "[value]",
+							"key": "id",
+							"value": "10",
 							"description": "optional: where clause"
-						},
-						{
-							"key": "[fieldName2]",
-							"value": "[value]"
 						},
 						{
 							"key": "field",
@@ -139,12 +139,13 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "localhost:3000/items/[id]?[updateField]=[newValue]&[updateField2]=[newValue]",
+					"raw": "localhost:3000/api/items/[id]?[updateField]=[newValue]&[updateField2]=[newValue]",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
+						"api",
 						"items",
 						"[id]"
 					],
