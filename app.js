@@ -142,6 +142,35 @@ app.delete("/:table/:id", (req, res, next) => {
     });
 });
 
+app.put("/:table/:id", (req, res, next) => {
+    const p = req.params;
+    const table = p.table.toUpperCase();
+
+    let qInit = Object.assign({},req.query);
+    delete qInit.field;
+
+    let dbQuery;
+    if(Object.keys(qInit).length>0){ //only proceed when update fields are given
+        let set = "";
+        for (var property in qInit) {
+            if (qInit.hasOwnProperty(property)) {
+                set += property + " = \"" + qInit[property] + "\", ";
+            }
+        }
+        set = set.substring(0, set.length-2);
+
+        dbQuery = format('UPDATE {0} SET {1} WHERE id = {2}', table, set, p.id);
+    }
+
+    db.query(dbQuery, function (err, result) {
+        if(result){
+            response.success(res, next, result, 200, 'OK');
+        } else if (err){
+            response.failure(res, next, err, 500, 'Bad Request');
+        }
+    });
+});
+
 process.on('uncaughtException', function (err) {
     console.log('Caught exception: ' + err);
 });
